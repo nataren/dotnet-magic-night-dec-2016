@@ -3,3 +3,4 @@ obj
 src/output
 **/Service.cs
 **/ServiceGrpc.cs
+strace.output
