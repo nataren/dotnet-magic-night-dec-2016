@@ -11,16 +11,25 @@ proto_codegen:
 	$(TOOLS_PATH)/protoc -I$(BASE_SRC)/protos --csharp_out $(SERVICE_CODEGEN) --grpc_out $(SERVICE_CODEGEN) $(BASE_SRC)/protos/service.proto --plugin=protoc-gen-grpc=$(TOOLS_PATH)/grpc_csharp_plugin
 
 build_svc: proto_codegen
-	cd $(SERVICE_CODEGEN) && LD_LIBRARY_PATH=~/oldicu/:$LD_LIBRARY_PATH dotnet restore &&	LD_LIBRARY_PATH=~/oldicu/:$LD_LIBRARY_PATH dotnet build && cd ..
+	cd $(SERVICE_CODEGEN) && dotnet restore && dotnet build && cd ..
 
 restore_server: build_svc
-	cd $(SERVER) && LD_LIBRARY_PATH=~/oldicu/:$LD_LIBRARY_PATH dotnet restore &&  cd ..
+	cd $(SERVER) &&   dotnet restore &&  cd ..
 
 restore_client: build_svc
-	cd $(CLIENT) && LD_LIBRARY_PATH=~/oldicu/:$LD_LIBRARY_PATH dotnet restore &&  cd ..
+	cd $(CLIENT) &&   dotnet restore &&  cd ..
 
 run_server: restore_server
-	cd $(SERVER) && LD_LIBRARY_PATH=~/oldicu/:$LD_LIBRARY_PATH dotnet run && cd ..
+	cd $(SERVER) &&   dotnet run && cd ..
 
 run_client: restore_client
-	cd $(CLIENT) && LD_LIBRARY_PATH=~/oldicu/:$LD_LIBRARY_PATH dotnet run && cd ..
+	cd $(CLIENT) && dotnet run && cd ../../
+
+publish_server:
+	cd $(SERVER) && dotnet publish -o bin/debug/netcoreapp1.1/publish && cd ../../
+
+dockerize_server:
+	cd $(SERVER) && sudo ./dockerTask.sh build debug
+
+docker_run_server:
+	sudo docker run -t -p 50051 ddserver:debug
