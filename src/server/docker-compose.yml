@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  ddserver:
+    image: ddserver
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
