@@ -25,11 +25,11 @@ run_server: restore_server
 run_client: restore_client
 	cd $(CLIENT) && dotnet run && cd ../../
 
-publish_server:
+publish_server: restore_server
 	cd $(SERVER) && dotnet publish -o bin/debug/netcoreapp1.1/publish && cd ../../
 
-dockerize_server:
-	cd $(SERVER) && sudo ./dockerTask.sh build debug
+dockerize_server: publish_server
+	cd $(SERVER) && ./dockerTask.sh build debug
 
-docker_run_server:
-	sudo docker run -d -t -p 50051:50051 ddserver:debug
+docker_run_server: dockerize_server
+	docker run -d -t -p "50051:50051" ddserver:debug
