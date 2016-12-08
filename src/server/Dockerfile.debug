@@ -8,6 +8,8 @@ RUN curl -SL https://raw.githubusercontent.com/Microsoft/MIEngine/getclrdbg-rele
     && rm GetClrDbg.sh
 WORKDIR /app
 ENV ASPNETCORE_URLS http://*:50051
+ENV GRPC_TRACE all
+ENV GRPC_VERBOSITY DEBUG
 EXPOSE 50051
 ENTRYPOINT ["/bin/bash", "-c", "if [ -z \"$REMOTE_DEBUGGING\" ]; then dotnet server.dll; else sleep infinity; fi"]
 COPY . /app
