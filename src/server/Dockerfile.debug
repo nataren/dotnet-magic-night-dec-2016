@@ -7,7 +7,6 @@ RUN curl -SL https://raw.githubusercontent.com/Microsoft/MIEngine/getclrdbg-rele
     && ./GetClrDbg.sh $CLRDBG_VERSION \
     && rm GetClrDbg.sh
 WORKDIR /app
-ENV ASPNETCORE_URLS http://*:50051
 ENV GRPC_TRACE all
 ENV GRPC_VERBOSITY DEBUG
 EXPOSE 50051
