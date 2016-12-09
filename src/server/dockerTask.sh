@@ -3,7 +3,7 @@ projectName="ddserver"
 serviceName="ddserver"
 containerName="${projectName}_${serviceName}_1"
 publicPort=50051
-url="http://localhost:$publicPort"
+url="localhost:$publicPort"
 runtimeID="debian.8-x64"
 framework="netcoreapp1.1"
 
