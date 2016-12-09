@@ -27,18 +27,26 @@ public class DictionaryServiceImpl : DictionaryService.DictionaryServiceBase {
 }
 
 public class Program {
+    private static AutoResetEvent autoEvent = new AutoResetEvent(false);
+
     public static void Main(string[] args) {
+        Console.WriteLine("Firing off gRPC server");
         const int port = 50051;
         var server = new Server {
             Services = { DictionaryService.BindService(new DictionaryServiceImpl ()) },
             Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
         };
-        server.Start();
 
-        Console.WriteLine($"Hash table server listening on port {port}");
-        Console.WriteLine("Press any key to stop the server ...");
-        Console.ReadKey();
+        ThreadPool.QueueUserWorkItem(_ => {
+                server.Start();
+                Console.WriteLine($"server listening on port {port}");
+            },
+            autoEvent
+        );
+        autoEvent.WaitOne();
 
+        // Console.ReadLine or Console.ReadKey works outside of the container, not on the container though :-(
         server.ShutdownAsync().Wait();
+        Console.WriteLine("Shutting down ...");
     }
 }
