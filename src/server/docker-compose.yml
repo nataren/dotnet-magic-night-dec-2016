@@ -2,9 +2,11 @@ version: '2'
 
 services:
   ddserver:
-    image: ddserver
+    image: ddserver:debug
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.debug
     ports:
       - "50051:50051"
+    environment:
+      - REMOTE_DEBUGGING
