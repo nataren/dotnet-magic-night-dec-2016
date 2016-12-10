@@ -34,7 +34,7 @@ public class Program {
         const int port = 50051;
         var server = new Server {
             Services = { DictionaryService.BindService(new DictionaryServiceImpl ()) },
-            Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
+            Ports = { new ServerPort("*", port, ServerCredentials.Insecure) }
         };
 
         ThreadPool.QueueUserWorkItem(_ => {
