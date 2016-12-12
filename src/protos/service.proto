@@ -10,7 +10,9 @@ message GetRequest {
 }
 
 message GetResponse {
-  string value = 1;
+  bool found = 1;
+  string value = 2;
+  string node = 3;
 }
 
 message SetRequest {
