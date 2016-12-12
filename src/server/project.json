@@ -26,9 +26,9 @@
   },
   "publishOptions": {
     "include": [
-      "Dockerfile.debug",
-      "Dockerfile",
-      "docker-compose.debug.yml",
+      "Dockerfile1",
+      "Dockerfile2",
+      "Dockerfile3",
       "docker-compose.yml"
     ]
   }
