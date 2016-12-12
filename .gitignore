@@ -6,3 +6,4 @@ src/output
 **/Service.cs
 **/ServiceGrpc.cs
 strace.output
+logs
