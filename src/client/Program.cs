@@ -22,12 +22,10 @@ public static class Program {
         var callOptions = new CallOptions(deadline: DateTime.UtcNow.Add(TimeSpan.FromSeconds(3)));
 
         // Set key
-/*
         var setRequest = new SetRequest { Key = "foo", Value = "bar" };
         var setResponse = client.Set(setRequest, callOptions);
         Console.WriteLine($"setRequest={setRequest}");
         Console.WriteLine($"setResponse={setResponse}");
-*/
 
         // Retrieve key
         var getRequest = new GetRequest { Key = "foo" };
