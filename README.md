@@ -17,14 +17,13 @@ What is in this repository
 --------------------------
 1. C# GRPC server exposing two calls, Get(key) and Set(key, value) (see `src/server/`)
 2. A way to spin up three nodes running the server. (see `src/server/docker-compose.yml`, use it with `make docker_run_servers`)
-3. `Protobuf` message types and `GRPC` server definition (`protos/service.proto`) 
+3. `Protobuf` message types and `GRPC` server definition (`src/protos/service.proto`) 
 4. Sample `C#` client (see `src/client/`)
-5. `protoc 3.0` compiler (see `src/packages/Grpc.Tools.1.0.0/tmp/packages/Grpc.Tools.1.0.0/tools/{OS})
+5. `protoc 3.0` compiler (see `src/packages/Grpc.Tools.1.0.0/tmp/packages/Grpc.Tools.1.0.0/tools/{OS}`)
 6. Nice commands to rebuild the server, the client, the Docker images, and running the containers (see `Makefile`)
 
 The Challenge(s)
 ----------------
 1. Implement an RPC call to list all the keys on a given node.
-2. Design and implement a way to partition data among nodes in order to create buckets of keys that are handled by a single node.
-3. Implement a way that given a `key`, if the node that you are talking to has the key, you get the value back; otherwise you try to find it in a different node.
-4. Implement a way to persist your data.
+2. Design and implement a way to partition the data among nodes in order to create buckets of keys that are handled by a single node. You can talk to any node to get the value of a key even if the original node does not handle that key.
+3. Make the system fault-tolerant in the event of losing one node.
