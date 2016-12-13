@@ -25,5 +25,5 @@ What is in this repository
 The Challenge(s)
 ----------------
 1. Implement an RPC call to list all the keys on a given node.
-2. Design and implement a way to partition the data among nodes in order to create buckets of keys that are handled by a single node. You can talk to any node to get the value of a key even if the original node does not handle that key.
-3. Make the system fault-tolerant in the event of losing one node.
+2. Design and implement a way to partition the data among nodes in order to create buckets of keys that are handled by a single node.
+3. Make the system fault-tolerant in the event of losing one node (meaning, if a node had a key/value and it goes away, that you can still find that key/value).
