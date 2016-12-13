@@ -12,12 +12,6 @@ public class DictionaryServiceImpl : DictionaryService.DictionaryServiceBase {
 
     // Fields
     private static Dictionary<string, string> _dict = new Dictionary<string, string>(10000);
-    private DictionaryService.DictionaryServiceClient _next;
-
-    // Constructors
-    public DictionaryServiceImpl(DictionaryService.DictionaryServiceClient client) {
-        _next = client;
-    }
 
     // Methods
     public override Task<GetResponse> Get(GetRequest request, ServerCallContext context) {
@@ -42,8 +36,8 @@ public class Program {
     public static int Main(string[] args) {
 
         // Validate arguments
-        if(args.Length <= 1) {
-            Console.WriteLine("Usage: dotnet server.dll {PORT} {NEXT_PORT}");
+        if(args.Length < 1) {
+            Console.WriteLine("Usage: dotnet server.dll {PORT}");
             return -1;
         }
         int port;
@@ -51,30 +45,21 @@ public class Program {
             Console.WriteLine("invalid format for port, use a number");
             return -1;
         }
-        int nextPort;
-        if(!int.TryParse(args[1], out nextPort)) {
-            Console.WriteLine("invalid format for next port, use a number");
-            return -1;
-        }
 
         // Build the gRPC server
-        Console.WriteLine("Firing off gRPC server");
+        Console.WriteLine("Firing off GRPC server");
         var server = new Server {
-            Services = { DictionaryService.BindService(new DictionaryServiceImpl (
-                                                         new DictionaryService.DictionaryServiceClient(
-                                                           new Channel($"next:{nextPort}", ChannelCredentials.Insecure)))) },
+            Services = { DictionaryService.BindService(new DictionaryServiceImpl()) },
             Ports = { new ServerPort("*", port, ServerCredentials.Insecure) }
         };
 
         // Launch the gRPC server
         ThreadPool.QueueUserWorkItem(_ => {
                 server.Start();
-                Console.WriteLine($"gRPC server listening on port {port}, talking to next on port {nextPort}");
+                Console.WriteLine($"GRPC server listening on port {port}");
             }
         );
         autoEvent.WaitOne();
-
-        // Console.ReadLine or Console.ReadKey works outside of the container, not on the container though :-(
         server.ShutdownAsync().Wait();
         Console.WriteLine("Shutting down ...");
         return 0;

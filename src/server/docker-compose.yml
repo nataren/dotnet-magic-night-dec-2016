@@ -8,8 +8,6 @@ services:
       dockerfile: Dockerfile1
     depends_on:
       - ddserver2
-    links:
-      - "ddserver2:next"
     ports:
       - "50051:50051"
     environment:
@@ -22,8 +20,6 @@ services:
       dockerfile: Dockerfile2
     depends_on:
       - ddserver3
-    links:
-      - "ddserver3:next"
     ports:
       - "50052:50052"
     environment:
